@@ -105,20 +105,9 @@ for universe_name, uni_data in universes.items():
             history = win_res[str(best_win)].get("history", [])
             if history:
                 temps = [h[0] for h in history]
-                # Free energies
                 free_energies = [h[2] for h in history]
-                # Top ETF weight over temperature (e.g., weight of the first top ETF)
-                top_ticker = top_etfs[0]['ticker']
-                top_weights = []
-                for _, w_list, _ in history:
-                    # w_list is list of weights for all ETFs
-                    # Find index of top_ticker
-                    idx = list(returns_df.columns).index(top_ticker) if top_ticker in returns_df.columns else 0
-                    top_weights.append(w_list[idx] if idx < len(w_list) else 0)
-                fig1 = px.line(x=temps, y=free_energies, log_x=True, title=f"Free Energy vs Temperature (annealing)", labels={'x':'Temperature', 'y':'Free Energy'})
-                fig2 = px.line(x=temps, y=top_weights, log_x=True, title=f"Weight of {top_ticker} vs Temperature", labels={'x':'Temperature', 'y':'Weight'})
-                st.plotly_chart(fig1, use_container_width=True)
-                st.plotly_chart(fig2, use_container_width=True)
+                fig = px.line(x=temps, y=free_energies, log_x=True, title=f"Free Energy vs Temperature (annealing for best window {best_win}d)", labels={'x':'Temperature', 'y':'Free Energy'})
+                st.plotly_chart(fig, use_container_width=True)
     with st.expander("📋 Full ranking (all ETFs, best window per ETF)"):
         full = uni_data.get("full_scores", {})
         if full:
