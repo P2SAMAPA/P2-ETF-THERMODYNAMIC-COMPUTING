@@ -2,7 +2,7 @@ name: Daily Thermodynamic Computing Run
 
 on:
   schedule:
-    - cron: '23 03 * * 1-6'
+    - cron: '23 23 * * 1-6'
   workflow_dispatch:
 
 jobs:
